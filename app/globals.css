@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------
+   Palette — from the design system: archival rag paper, sumi ink,
+   aged brass. Light is default; .dark on <html> swaps the values.
+
+   Two brass tokens on purpose:
+     --brass        text-safe (passes contrast at body sizes)
+     --brass-bright #C5A059 as specified, for marks, rules and
+                    indicators only — never for small text on cream.
+   --------------------------------------------------------------- */
+:root {
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --canvas: #faf8f5;
+  --surface: #ffffff;
+  --surface-alt: #f5f2eb;
+  --ink: #0a1128;
+  --ink-soft: #46464d;
+  --ink-faint: #76767e;
+  --rule: #e2dcd5;
+  --rule-soft: #ebe6df;
+  --brass: #8a6a2e;
+  --brass-bright: #c5a059;
+}
+
+.dark {
+  --canvas: #0b0e14;
+  --surface: #11151d;
+  --surface-alt: #151a23;
+  --ink: #edeae3;
+  --ink-soft: #a7a8ae;
+  --ink-faint: #7b7d85;
+  --rule: #242a34;
+  --rule-soft: #1b202a;
+  --brass: #c9a765;
+  --brass-bright: #c5a059;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-brass: var(--brass);
+  --color-brass-bright: var(--brass-bright);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* Type scale, taken from the design system */
+  --text-display: 3.5rem; /* 56 / 64 */
+  --text-display--line-height: 4rem;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 400;
+
+  --text-display-m: 2.375rem; /* 38 / 44 */
+  --text-display-m--line-height: 2.75rem;
+  --text-display-m--letter-spacing: -0.01em;
+
+  --text-headline: 2.25rem; /* 36 / 44 */
+  --text-headline--line-height: 2.75rem;
+  --text-headline--letter-spacing: -0.015em;
+
+  --text-headline-m: 1.75rem; /* 28 / 36 */
+  --text-headline-m--line-height: 2.25rem;
+  --text-headline-m--letter-spacing: -0.01em;
+
+  --text-title: 1.625rem; /* 26 / 34 */
+  --text-title--line-height: 2.125rem;
+
+  --text-subtitle: 1.25rem; /* 20 / 28 */
+  --text-subtitle--line-height: 1.75rem;
+  --text-subtitle--font-weight: 500;
+
+  --text-body-lg: 1.125rem; /* 18 / 30 */
+  --text-body-lg--line-height: 1.875rem;
+
+  --text-body: 0.9375rem; /* 15 / 24 */
+  --text-body--line-height: 1.5rem;
+
+  --text-body-sm: 0.8125rem; /* 13 / 20 */
+  --text-body-sm--line-height: 1.25rem;
+
+  --text-spec: 0.6875rem; /* 11 / 16 */
+  --text-spec--line-height: 1rem;
+  --text-spec--letter-spacing: 0.05em;
+  --text-spec--font-weight: 500;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--brass-bright);
+    color: #0a1128;
+  }
+
+  /* The system is strictly orthogonal — nothing is rounded. */
+  *,
+  *::before,
+  *::after {
+    border-radius: 0;
+  }
+}
+
+@layer components {
+  /* Monospaced spec label — section eyebrows, field keys, tags */
+  .spec {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* Tracked sans label — buttons and nav */
+  .tracked {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Technical hairline grid behind the hero */
+  .grid-lines {
+    background-size: 32px 32px;
+    background-image:
+      linear-gradient(to right, rgb(118 118 126 / 0.13) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(118 118 126 / 0.13) 1px, transparent 1px);
+  }
+
+  .dark .grid-lines {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
